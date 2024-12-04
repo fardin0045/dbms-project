@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #a362e9, #317cff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .register-box {
+            background: #fff;
+            color: black;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .register-box h2 {
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .input-group label {
+            display: block;
+            text-align: start;
+            margin-top: 2px;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .btn-register {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background-color: #317cff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .btn-register:hover {
+            background: linear-gradient(135deg, #a362e9, #317cff);
+        }
+
+        .login-link {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #317cff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="register-box">
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Type your username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Type your password" required>
+                </div>
+                <br>
+                <button type="submit" class="btn-register">Register</button>
+                <a href="login.html" class="login-link">Already have an account? Login</a>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("registerForm");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                const response = await fetch("http://localhost:5000/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const result = await response.text();
+                if (response.ok) {
+                    alert(result);
+                    window.location.href = "home.html"; 
+                } else {
+                    alert(result);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred during registration.");
+            }
+        });
+    </script>
+</body>
+
+</html>
